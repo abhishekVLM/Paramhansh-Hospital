@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Paramhansh-Hospital/static/css/main.e6c13ad2.css",
+    "main.js": "/Paramhansh-Hospital/static/js/main.93d1eaac.js",
+    "static/js/453.ae8b4017.chunk.js": "/Paramhansh-Hospital/static/js/453.ae8b4017.chunk.js",
+    "index.html": "/Paramhansh-Hospital/index.html",
+    "main.e6c13ad2.css.map": "/Paramhansh-Hospital/static/css/main.e6c13ad2.css.map",
+    "main.93d1eaac.js.map": "/Paramhansh-Hospital/static/js/main.93d1eaac.js.map",
+    "453.ae8b4017.chunk.js.map": "/Paramhansh-Hospital/static/js/453.ae8b4017.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.93d1eaac.js"
+  ]
+}
