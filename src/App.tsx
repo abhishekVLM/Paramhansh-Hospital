@@ -405,8 +405,8 @@ function Footer({ setPage }: { setPage: (page: string) => void }) {
           flexDirection: "column",
           gap: "6px",
         }}>
-          <div>Copyright © 2025 Paramhans Institute of Neurology - All Rights Reserved.</div>
-          <div style={{ fontSize: "12px" }}>Designed by Abhishek Anand</div>
+          <div>Copyright © 2026 Paramhans Institute of Neurology - All Rights Reserved.</div>
+          <div style={{ fontSize: "12px" }}>Built & Maintained by Abhishek Anand</div>
         </div>
       </div>
     </footer>
