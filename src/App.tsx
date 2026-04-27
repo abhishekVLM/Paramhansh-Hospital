@@ -1127,7 +1127,375 @@ function TestsPage() {
     </div>
   );
 }
+// ====================== CHATBOT ======================
 
+const chatbotFAQ = {
+  en: {
+    greeting: "Hello! 👋 How can I help you today?",
+    language: "English",
+    options: [
+      {
+        question: "📅 Book an Appointment",
+        answer: "To book an appointment, please call us directly:\n📞 +91 9304508599\n📞 0612-2666667\n\nOur team will help you schedule your visit.",
+      },
+      {
+        question: "🏥 Hospital Location",
+        answer: "We are located at:\nB 18, Besides State Bank of India (Personalised Branch), Near Kendriya Vidyalaya, Kankarbagh, Patna, BR 800020\n\n📍 Open 24/7",
+      },
+      {
+        question: "🩺 What tests are available?",
+        answer: "We offer: EEG, NCS, CT Scan, Echocardiography, Polysomnography, Urodynamics, MSK Ultrasound, Holter Monitoring, Vertigo Testing, Autonomic Function Test, and a Fully Automated Biochemistry Lab.\n\nCall us for test pricing: 📞 +91 9304508599",
+      },
+      {
+        question: "👨‍⚕️ About Dr. Sanjay Kumar",
+        answer: "Dr. Sanjay Kumar is the Founder & Director.\nQualifications: MBBS, MD (Medicine), DM (Neurology), MRCP (UK), FRCP London.\nHe is the Head of Neurology at PMCH and has consulted over 1 Lakh patients worldwide.",
+      },
+      {
+        question: "💳 Payment Information",
+        answer: "⚠️ Important: Please make all payments ONLY at the hospital counter with a receipt.\n\nNo phone or web payments are accepted. Do not pay through any online link or phone call.",
+      },
+      {
+        question: "📝 File a Complaint",
+        answer: "We're sorry to hear about your experience. Please send your complaint to:\n\n📧 info@pinpat.in\n\nOur team will respond within 24-48 hours.",
+      },
+      {
+        question: "🕐 OPD Timings",
+        answer: "Our hospital is open 24/7 for emergencies.\n\nFor OPD appointments, please call:\n📞 +91 9304508599\n📞 0612-2666667",
+      },
+    ],
+  },
+  hi: {
+    greeting: "नमस्ते! 👋 मैं आपकी कैसे मदद कर सकता हूँ?",
+    language: "हिंदी",
+    options: [
+      {
+        question: "📅 अपॉइंटमेंट बुक करें",
+        answer: "अपॉइंटमेंट बुक करने के लिए, कृपया हमें सीधे कॉल करें:\n📞 +91 9304508599\n📞 0612-2666667\n\nहमारी टीम आपकी विजिट शेड्यूल करने में मदद करेगी।",
+      },
+      {
+        question: "🏥 अस्पताल का पता",
+        answer: "हमारा पता:\nB 18, भारतीय स्टेट बैंक (पर्सनलाइज्ड ब्रांच) के बगल में, केंद्रीय विद्यालय के पास, कंकड़बाग, पटना, बिहार 800020\n\n📍 24/7 खुला है",
+      },
+      {
+        question: "🩺 कौन-कौन से टेस्ट उपलब्ध हैं?",
+        answer: "हम ये टेस्ट करते हैं: EEG, NCS, CT Scan, इकोकार्डियोग्राफी, पॉलीसोम्नोग्राफी, यूरोडायनामिक्स, MSK अल्ट्रासाउंड, होल्टर मॉनिटरिंग, वर्टिगो टेस्टिंग, ऑटोनोमिक फंक्शन टेस्ट, और बायोकेमिस्ट्री लैब।\n\nटेस्ट की कीमत के लिए कॉल करें: 📞 +91 9304508599",
+      },
+      {
+        question: "👨‍⚕️ डॉ. संजय कुमार के बारे में",
+        answer: "डॉ. संजय कुमार संस्थापक और निदेशक हैं।\nयोग्यता: MBBS, MD (मेडिसिन), DM (न्यूरोलॉजी), MRCP (UK), FRCP लंदन।\nवे PMCH में न्यूरोलॉजी विभाग के प्रमुख हैं और दुनिया भर में 1 लाख से अधिक मरीजों को परामर्श दे चुके हैं।",
+      },
+      {
+        question: "💳 भुगतान जानकारी",
+        answer: "⚠️ महत्वपूर्ण: कृपया सभी भुगतान केवल अस्पताल काउंटर पर रसीद के साथ करें।\n\nकोई फोन या वेब भुगतान स्वीकार नहीं किया जाता। किसी भी ऑनलाइन लिंक या फोन कॉल से भुगतान न करें।",
+      },
+      {
+        question: "📝 शिकायत दर्ज करें",
+        answer: "आपकी समस्या के लिए हमें खेद है। कृपया अपनी शिकायत भेजें:\n\n📧 info@pinpat.in\n\nहमारी टीम 24-48 घंटे में जवाब देगी।",
+      },
+      {
+        question: "🕐 OPD समय",
+        answer: "हमारा अस्पताल इमरजेंसी के लिए 24/7 खुला है।\n\nOPD अपॉइंटमेंट के लिए कॉल करें:\n📞 +91 9304508599\n📞 0612-2666667",
+      },
+    ],
+  },
+};
+
+function ChatBot() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [lang, setLang] = useState<"en" | "hi">("en");
+  const [messages, setMessages] = useState<Array<{ from: string; text: string }>>([]);
+  const [started, setStarted] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const faq = chatbotFAQ[lang];
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const startChat = (selectedLang: "en" | "hi") => {
+    setLang(selectedLang);
+    setStarted(true);
+    setMessages([{ from: "bot", text: chatbotFAQ[selectedLang].greeting }]);
+  };
+
+  const handleOption = (option: { question: string; answer: string }) => {
+    setMessages((prev) => [
+      ...prev,
+      { from: "user", text: option.question },
+      { from: "bot", text: option.answer },
+    ]);
+  };
+
+  const resetChat = () => {
+    setStarted(false);
+    setMessages([]);
+  };
+
+  return (
+    <>
+      {/* Floating Button */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          position: "fixed",
+          bottom: "24px",
+          right: "24px",
+          width: "60px",
+          height: "60px",
+          borderRadius: "50%",
+          background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.accent})`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
+          zIndex: 1000,
+          transition: "transform 0.2s",
+          transform: isOpen ? "scale(0.9)" : "scale(1)",
+        }}
+      >
+        {isOpen ? (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6L18 18M6 18L18 6" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+          </svg>
+        ) : (
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+          </svg>
+        )}
+      </div>
+
+      {/* Chat Window */}
+      {isOpen && (
+        <div style={{
+          position: "fixed",
+          bottom: "96px",
+          right: "24px",
+          width: "clamp(300px, 90vw, 380px)",
+          height: "500px",
+          borderRadius: "16px",
+          overflow: "hidden",
+          boxShadow: "0 8px 40px rgba(0,0,0,0.2)",
+          zIndex: 1000,
+          display: "flex",
+          flexDirection: "column",
+          background: COLORS.white,
+          border: `1px solid ${COLORS.border}`,
+        }}>
+          {/* Header */}
+          <div style={{
+            background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.accent})`,
+            padding: "16px 20px",
+            color: COLORS.white,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}>
+            <div>
+              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: "16px" }}>
+                Paramhans Institute
+              </div>
+              <div style={{ fontSize: "12px", opacity: 0.8, marginTop: "2px" }}>
+                {started ? (lang === "en" ? "We typically reply instantly" : "हम तुरंत जवाब देते हैं") : "Choose your language"}
+              </div>
+            </div>
+            {started && (
+              <div
+                onClick={resetChat}
+                style={{
+                  fontSize: "11px",
+                  background: "rgba(255,255,255,0.2)",
+                  padding: "4px 10px",
+                  borderRadius: "12px",
+                  cursor: "pointer",
+                }}
+              >
+                {lang === "en" ? "🔄 Restart" : "🔄 पुनः शुरू"}
+              </div>
+            )}
+          </div>
+
+          {/* Body */}
+          <div style={{
+            flex: 1,
+            overflowY: "auto",
+            padding: "16px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            background: "#f8f9fb",
+          }}>
+            {!started ? (
+              /* Language Selection */
+              <div style={{ textAlign: "center", marginTop: "40px" }}>
+                <div style={{
+                  fontSize: "40px",
+                  marginBottom: "16px",
+                }}>🏥</div>
+                <div style={{
+                  fontFamily: "'DM Serif Display', serif",
+                  fontSize: "18px",
+                  color: COLORS.primary,
+                  marginBottom: "8px",
+                }}>Welcome / स्वागत है</div>
+                <div style={{
+                  fontSize: "13px",
+                  color: COLORS.textLight,
+                  marginBottom: "24px",
+                }}>Please choose your language / अपनी भाषा चुनें</div>
+                <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
+                  <button
+                    onClick={() => startChat("en")}
+                    style={{
+                      padding: "12px 28px",
+                      borderRadius: "8px",
+                      border: `2px solid ${COLORS.primary}`,
+                      background: COLORS.white,
+                      color: COLORS.primary,
+                      fontWeight: 700,
+                      fontSize: "15px",
+                      cursor: "pointer",
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >English</button>
+                  <button
+                    onClick={() => startChat("hi")}
+                    style={{
+                      padding: "12px 28px",
+                      borderRadius: "8px",
+                      border: `2px solid ${COLORS.accent}`,
+                      background: COLORS.white,
+                      color: COLORS.accent,
+                      fontWeight: 700,
+                      fontSize: "15px",
+                      cursor: "pointer",
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    }}
+                  >हिंदी</button>
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Messages */}
+                {messages.map((msg, i) => (
+                  <div key={i} style={{
+                    alignSelf: msg.from === "user" ? "flex-end" : "flex-start",
+                    maxWidth: "85%",
+                  }}>
+                    <div style={{
+                      background: msg.from === "user"
+                        ? `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryLight})`
+                        : COLORS.white,
+                      color: msg.from === "user" ? COLORS.white : COLORS.text,
+                      padding: "12px 16px",
+                      borderRadius: msg.from === "user"
+                        ? "16px 16px 4px 16px"
+                        : "16px 16px 16px 4px",
+                      fontSize: "13px",
+                      lineHeight: 1.6,
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      whiteSpace: "pre-line",
+                      boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+                    }}>
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Quick Options */}
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "8px",
+                  marginTop: "4px",
+                }}>
+                  {faq.options.map((opt, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleOption(opt)}
+                      style={{
+                        background: COLORS.white,
+                        border: `1px solid ${COLORS.border}`,
+                        borderRadius: "10px",
+                        padding: "10px 14px",
+                        fontSize: "13px",
+                        fontFamily: "'Plus Jakarta Sans', sans-serif",
+                        color: COLORS.primary,
+                        cursor: "pointer",
+                        textAlign: "left",
+                        fontWeight: 500,
+                        transition: "all 0.15s",
+                        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                      }}
+                      onMouseEnter={e => {
+                        (e.target as HTMLElement).style.borderColor = COLORS.accent;
+                        (e.target as HTMLElement).style.background = "#f0faf7";
+                      }}
+                      onMouseLeave={e => {
+                        (e.target as HTMLElement).style.borderColor = COLORS.border;
+                        (e.target as HTMLElement).style.background = COLORS.white;
+                      }}
+                    >
+                      {opt.question}
+                    </button>
+                  ))}
+                </div>
+
+                <div ref={messagesEndRef} />
+              </>
+            )}
+          </div>
+
+          {/* Footer */}
+          <div style={{
+            padding: "12px 16px",
+            borderTop: `1px solid ${COLORS.border}`,
+            background: COLORS.white,
+            display: "flex",
+            gap: "8px",
+            justifyContent: "center",
+          }}>
+            <a href="tel:+919304508599" style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "6px",
+              padding: "10px",
+              borderRadius: "8px",
+              background: COLORS.accent,
+              color: COLORS.white,
+              textDecoration: "none",
+              fontSize: "13px",
+              fontWeight: 600,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}>
+              📞 {lang === "en" ? "Call Now" : "कॉल करें"}
+            </a>
+            <a href="mailto:info@pinpat.in" style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "6px",
+              padding: "10px",
+              borderRadius: "8px",
+              background: COLORS.primary,
+              color: COLORS.white,
+              textDecoration: "none",
+              fontSize: "13px",
+              fontWeight: 600,
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+            }}>
+              📧 {lang === "en" ? "Email Us" : "ईमेल करें"}
+            </a>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 // ====================== MAIN APP ======================
 
 export default function App() {
@@ -1164,6 +1532,7 @@ export default function App() {
         {renderPage()}
       </main>
       <Footer setPage={setPage} />
+      <ChatBot />
     </div>
   );
 }
