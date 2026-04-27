@@ -132,8 +132,6 @@ const diagnosticTests = [
   },
 ];
 
-
-
 function AnnouncementBar() {
   return (
     <div style={{
@@ -226,7 +224,6 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
           onClick={() => setPage("home")}
         />
 
-        {/* Desktop nav */}
         <div style={{
           display: "flex",
           alignItems: "center",
@@ -291,7 +288,6 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
           {navLink("All Tests", "tests")}
         </div>
 
-        {/* Mobile hamburger */}
         <div
           onClick={() => setMenuOpen(!menuOpen)}
           style={{ cursor: "pointer", padding: "8px", display: "none" }}
@@ -301,15 +297,12 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
             {menuOpen ? (
               <path d="M6 6L18 18M6 18L18 6" stroke={COLORS.text} strokeWidth="2" strokeLinecap="round"/>
             ) : (
-              <>
-                <path d="M3 7H21M3 12H21M3 17H21" stroke={COLORS.text} strokeWidth="2" strokeLinecap="round"/>
-              </>
+              <path d="M3 7H21M3 12H21M3 17H21" stroke={COLORS.text} strokeWidth="2" strokeLinecap="round"/>
             )}
           </svg>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div style={{
           background: COLORS.white,
@@ -492,7 +485,6 @@ function ReviewsSection() {
           }}>
             Hear from Our Happy Patients!
           </h2>
-          {/* Google Rating Badge */}
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -584,7 +576,6 @@ function ReviewsSection() {
           ))}
         </div>
 
-        {/* Google Reviews CTA */}
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <a
             href="https://www.google.com/maps/search/Paramhans+Institute+of+Neurology+Patna"
@@ -621,19 +612,9 @@ function ReviewsSection() {
 // ====================== PAGES ======================
 
 function HomePage() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = true;
-      video.play().catch(() => {});
-    }
-  }, []);
-
   return (
     <div>
-      {/* Hero - Background video with circle overlay */}
+      {/* Hero - YouTube background video with circle overlay */}
       <div style={{
         position: "relative",
         width: "100%",
@@ -641,34 +622,27 @@ function HomePage() {
         overflow: "hidden",
         background: "#0B1A2A",
       }}>
-        {/* Background Video */}
-        <video
-          ref={videoRef}
-          muted
-          autoPlay
-          loop
-          playsInline
+        {/* YouTube Background Video */}
+        <iframe
+          src="https://www.youtube.com/embed/YU5nKw_qc8M?autoplay=1&mute=1&loop=1&playlist=YU5nKw_qc8M&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
+          allow="autoplay"
+          title="Paramhans Institute"
           style={{
             position: "absolute",
             top: "50%",
             left: "50%",
-            transform: "translate(-50%, -50%)",
-            minWidth: "100%",
-            minHeight: "100%",
-            width: "auto",
-            height: "auto",
+            transform: "translate(-50%, -50%) scale(1.3)",
+            width: "100vw",
+            height: "100vh",
             border: "none",
             pointerEvents: "none",
-            objectFit: "cover",
           }}
-        >
-          <source src="/Image/Video.mp4" type="video/mp4" />
-        </video>
+        />
 
         {/* Dark overlay */}
         <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.35)" }} />
 
-        {/* Circle overlay - bottom right like original */}
+        {/* Circle overlay - bottom right */}
         <div style={{
           position: "absolute",
           bottom: "32px",
@@ -1009,7 +983,6 @@ function TeamPage() {
               padding: "32px 20px 24px",
               textAlign: "center",
             }}>
-              {/* Circle photo */}
               <div style={{
                 width: "140px",
                 height: "140px",
