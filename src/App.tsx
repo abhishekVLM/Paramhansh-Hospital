@@ -786,6 +786,7 @@ function DoctorPage() {
           fontFamily: "'Plus Jakarta Sans', sans-serif",
           color: "rgba(255,255,255,0.8)",
           fontSize: "16px",
+          fontWeight: 700,
         }}>@PIN</p>
       </div>
 
