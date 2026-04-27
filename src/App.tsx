@@ -802,7 +802,7 @@ function DoctorPage() {
           justifyContent: "center",
         }}>
           <img
-            src="/Image/team/dr-sanjay-kumar.jpg"
+            src="https://img1.wsimg.com/isteam/ip/ff42b33d-2a2c-4428-a571-2c1fba72f219/blob-991885c.png/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:600,h:600,cg:true"
             alt="Dr. Sanjay Kumar"
             style={{
               width: "360px",
