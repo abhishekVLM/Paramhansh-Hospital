@@ -1402,45 +1402,66 @@ function ChatBot() {
                     </div>
                   </div>
                 ))}
-
+                
                 {/* Quick Options */}
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "8px",
-                  marginTop: "4px",
-                }}>
-                  {faq.options.map((opt, i) => (
-                    <button
-                      key={i}
-                      onClick={() => handleOption(opt)}
-                      style={{
-                        background: COLORS.white,
-                        border: `1px solid ${COLORS.border}`,
-                        borderRadius: "10px",
-                        padding: "10px 14px",
-                        fontSize: "13px",
-                        fontFamily: "'Plus Jakarta Sans', sans-serif",
-                        color: COLORS.primary,
-                        cursor: "pointer",
-                        textAlign: "left",
-                        fontWeight: 500,
-                        transition: "all 0.15s",
-                        boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-                      }}
-                      onMouseEnter={e => {
-                        (e.target as HTMLElement).style.borderColor = COLORS.accent;
-                        (e.target as HTMLElement).style.background = "#f0faf7";
-                      }}
-                      onMouseLeave={e => {
-                        (e.target as HTMLElement).style.borderColor = COLORS.border;
-                        (e.target as HTMLElement).style.background = COLORS.white;
-                      }}
-                    >
-                      {opt.question}
-                    </button>
-                  ))}
-                </div>
+                {messages.length <= 1 ? (
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    marginTop: "4px",
+                  }}>
+                    {faq.options.map((opt, i) => (
+                      <button
+                        key={i}
+                        onClick={() => handleOption(opt)}
+                        style={{
+                          background: COLORS.white,
+                          border: `1px solid ${COLORS.border}`,
+                          borderRadius: "10px",
+                          padding: "10px 14px",
+                          fontSize: "13px",
+                          fontFamily: "'Plus Jakarta Sans', sans-serif",
+                          color: COLORS.primary,
+                          cursor: "pointer",
+                          textAlign: "left",
+                          fontWeight: 500,
+                          transition: "all 0.15s",
+                          boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                        }}
+                        onMouseEnter={e => {
+                          (e.target as HTMLElement).style.borderColor = COLORS.accent;
+                          (e.target as HTMLElement).style.background = "#f0faf7";
+                        }}
+                        onMouseLeave={e => {
+                          (e.target as HTMLElement).style.borderColor = COLORS.border;
+                          (e.target as HTMLElement).style.background = COLORS.white;
+                        }}
+                      >
+                        {opt.question}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setMessages([{ from: "bot", text: faq.greeting }])}
+                    style={{
+                      background: COLORS.white,
+                      border: `2px solid ${COLORS.accent}`,
+                      borderRadius: "10px",
+                      padding: "12px 16px",
+                      fontSize: "13px",
+                      fontFamily: "'Plus Jakarta Sans', sans-serif",
+                      color: COLORS.accent,
+                      cursor: "pointer",
+                      textAlign: "center",
+                      fontWeight: 700,
+                      marginTop: "4px",
+                    }}
+                  >
+                    {lang === "en" ? "💬 More Questions?" : "💬 और सवाल पूछें?"}
+                  </button>
+                )}
 
                 <div ref={messagesEndRef} />
               </>
