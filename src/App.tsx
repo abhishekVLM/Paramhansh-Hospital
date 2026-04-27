@@ -359,59 +359,54 @@ function PaymentNotice() {
     </div>
   );
 }
-
 function Footer({ setPage }: { setPage: (page: string) => void }) {
   return (
-    <footer style={{
-      background: COLORS.primary,
-      color: COLORS.white,
-      padding: "48px 24px 24px",
-      fontFamily: "'Plus Jakarta Sans', sans-serif",
-    }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "40px", marginBottom: "32px" }}>
-          <div style={{ flex: "1 1 300px" }}>
-            <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: "22px", marginBottom: "16px" }}>
-              Paramhans Institute of Neurology
+    <footer style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+      <div style={{ background: "#0E4A6F", padding: "48px 24px 32px" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "40px" }}>
+
+            <div style={{ flex: "1 1 300px" }}>
+              <div style={{ fontFamily: "'DM Serif Display', serif", fontSize: "22px", marginBottom: "16px", color: COLORS.gold }}>
+                Paramhans Institute of Neurology
+              </div>
+              <a href="https://www.google.com/maps/place/?q=place_id:ChIJjTGCTABZ7TkRkKrPlJJXHvQ" target="_blank" rel="noreferrer" style={{ fontSize: "14px", lineHeight: 1.7, color: "rgba(255,255,255,0.85)", textDecoration: "none", display: "flex", alignItems: "flex-start", gap: "8px" }}>
+                <span style={{ fontSize: "18px", marginTop: "2px" }}>📍</span>
+                <span style={{ borderBottom: "1px dashed rgba(255,255,255,0.4)" }}>B 18, Besides State Bank of India (Personalised Branch), Near Kendriya Vidyalaya, Kankarbagh, Patna, BR 800020</span>
+              </a>
             </div>
-            <p style={{ fontSize: "14px", lineHeight: 1.7, opacity: 0.85 }}>
-              B 18, Besides State Bank of India (Personalised Branch), Near Kendriya Vidyalaya, Kankarbagh, Patna, BR 800020
-            </p>
-          </div>
-          <div style={{ flex: "1 1 200px" }}>
-            <div style={{ fontWeight: 700, fontSize: "14px", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px" }}>Contact</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "14px", opacity: 0.85 }}>
-              <a href="tel:+919304508599" style={{ color: COLORS.white, textDecoration: "none" }}>+91 9304508599</a>
-              <a href="tel:+919693212995" style={{ color: COLORS.white, textDecoration: "none" }}>+91 9693212995</a>
-              <a href="mailto:info@pinpat.in" style={{ color: COLORS.white, textDecoration: "none" }}>info@pinpat.in</a>
+
+            <div style={{ flex: "1 1 200px" }}>
+              <div style={{ fontWeight: 700, fontSize: "14px", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px", color: COLORS.gold }}>Contact</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "14px" }}>
+                <a href="tel:+919304508599" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none" }}>📞 +91 9304508599</a>
+                <a href="tel:+919693212995" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none" }}>📞 +91 9693212995</a>
+                <a href="mailto:info@pinpat.in" style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none" }}>📧 info@pinpat.in</a>
+              </div>
             </div>
-          </div>
-          <div style={{ flex: "1 1 200px" }}>
-            <div style={{ fontWeight: 700, fontSize: "14px", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px" }}>Quick Links</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "14px", opacity: 0.85 }}>
-              <span onClick={() => { setPage("home"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>Home</span>
-              <span onClick={() => { setPage("team"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>Our Team</span>
-              <span onClick={() => { setPage("tests"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>All Tests</span>
+
+            <div style={{ flex: "1 1 200px" }}>
+              <div style={{ fontWeight: 700, fontSize: "14px", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "1px", color: COLORS.gold }}>Quick Links</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px", fontSize: "14px", color: "rgba(255,255,255,0.85)" }}>
+                <span onClick={() => { setPage("home"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>Home</span>
+                <span onClick={() => { setPage("team"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>Our Team</span>
+                <span onClick={() => { setPage("tests"); window.scrollTo(0,0); }} style={{ cursor: "pointer" }}>All Tests</span>
+              </div>
             </div>
+
           </div>
         </div>
-        <div style={{
-          borderTop: "1px solid rgba(255,255,255,0.15)",
-          paddingTop: "20px",
-          textAlign: "center",
-          fontSize: "13px",
-          opacity: 0.6,
-          display: "flex",
-          flexDirection: "column",
-          gap: "6px",
-        }}>
-          <div>Copyright © 2026 Paramhans Institute of Neurology - All Rights Reserved.</div>
-          <div style={{ fontSize: "12px" }}>Built & Maintained by Abhishek Anand</div>
-        </div>
+      </div>
+
+      <div style={{ background: "#071E2E", padding: "16px 24px", textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.5)", display: "flex", flexDirection: "column", gap: "4px" }}>
+        <div>Copyright © 2026 Paramhans Institute of Neurology - All Rights Reserved.</div>
+        <div style={{ fontSize: "12px" }}>Built & Maintained by Abhishek Anand</div>
       </div>
     </footer>
   );
 }
+
+
 
 // ====================== REVIEWS ======================
 
@@ -532,7 +527,7 @@ function ReviewsSection() {
           gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap: "24px",
         }}>
-          {reviews.map((r) => (
+          {reviews.filter(r => r.rating >= 4).map((r) => (
             <div key={r.name} style={{
               background: COLORS.white,
               borderRadius: "16px",
@@ -646,7 +641,7 @@ function HomePage() {
         <div style={{
           position: "absolute",
           bottom: "-17px",
-          right: "clamp(0px, 2vw, 80px)",
+          right: "clamp(0px, 6vw, 80px)",
           width: "clamp(180px, 22vw, 260px)",
           height: "clamp(180px, 22vw, 260px)",
           borderRadius: "50%",
