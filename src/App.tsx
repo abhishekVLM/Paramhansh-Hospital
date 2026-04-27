@@ -605,6 +605,39 @@ function ReviewsSection() {
 }
 
 // ====================== PAGES ======================
+function PhotoCarousel() {
+  const [current, setCurrent] = useState(0);
+  const photos = [
+    "/Image/hospital-1.png",
+  ];
+  useEffect(() => {
+    if (photos.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % photos.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [photos.length]);
+  return (
+    <div style={{ width: "100%", flex: "1 1 400px", maxWidth: "500px", margin: "0", borderRadius: "16px", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", position: "relative" }}>
+      <div style={{ display: "flex", transition: "transform 0.5s ease", transform: `translateX(-${current * 100}%)` }}>
+        {photos.map((src, i) => (
+          <img key={i} src={src} alt={`Hospital photo ${i + 1}`} style={{ width: "100%", height: "400px", objectFit: "cover", flexShrink: 0 }} />
+        ))}
+      </div>
+      {photos.length > 1 && (
+        <>
+          <div onClick={() => setCurrent((current - 1 + photos.length) % photos.length)} style={{ position: "absolute", top: "50%", left: "12px", transform: "translateY(-50%)", width: "40px", height: "40px", borderRadius: "50%", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", fontSize: "20px" }}>‹</div>
+          <div onClick={() => setCurrent((current + 1) % photos.length)} style={{ position: "absolute", top: "50%", right: "12px", transform: "translateY(-50%)", width: "40px", height: "40px", borderRadius: "50%", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", fontSize: "20px" }}>›</div>
+          <div style={{ position: "absolute", bottom: "16px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "8px" }}>
+            {photos.map((_, i) => (
+              <div key={i} onClick={() => setCurrent(i)} style={{ width: current === i ? "24px" : "8px", height: "8px", borderRadius: "4px", background: current === i ? COLORS.gold : "rgba(255,255,255,0.6)", cursor: "pointer", transition: "all 0.3s" }} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 function HomePage() {
   return (
@@ -697,61 +730,37 @@ function HomePage() {
       {/* About Section */}
       <section style={{
         padding: "72px 24px",
-        maxWidth: "900px",
-        margin: "0 auto",
+        background: "#EDF4F8",
       }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+          </div>
+
         <h2 style={{
           fontFamily: "'DM Serif Display', serif",
           fontSize: "clamp(24px, 4vw, 36px)",
           color: COLORS.primary,
           textAlign: "center",
-          marginBottom: "32px",
+          marginBottom: "40px",
         }}>
           About Paramhans Institute
         </h2>
-        <p style={{
-          fontFamily: "'Plus Jakarta Sans', sans-serif",
-          fontSize: "16px",
-          lineHeight: 1.8,
-          color: COLORS.textLight,
-          textAlign: "center",
-        }}>
-          Paramhans Institute of Neurology offers specialised care in neurology, trauma, and joint replacement surgery at affordable prices. We treat stroke, epilepsy, neuropathy, and other neurological conditions with advanced diagnostics and expert care. Our trauma unit provides 24/7 emergency services for acute injuries. The orthopaedic team performs total and partial knee and hip replacements using modern techniques. With 62 centrally air-conditioned beds, including ICU, emergency, OPD, general ward, and deluxe rooms, we ensure comfort and care. Led by experienced doctors, we are committed to compassionate, personalised treatment focused on recovery and long-term wellness.
-        </p>
-      </section>
-
-      {/* Stats */}
-      <section style={{
-        background: COLORS.primary,
-        padding: "48px 24px",
-      }}>
         <div style={{
-          maxWidth: "900px",
-          margin: "0 auto",
           display: "flex",
-          justifyContent: "space-around",
+          gap: "40px",
+          alignItems: "center",
           flexWrap: "wrap",
-          gap: "32px",
+          justifyContent: "center",
         }}>
-          {[
-            ["62+", "Air-Conditioned Beds"],
-            ["24/7", "Emergency Services"],
-            ["1 Lakh+", "Patients Worldwide"],
-          ].map(([num, label]) => (
-            <div key={label} style={{ textAlign: "center" }}>
-              <div style={{
-                fontFamily: "'DM Serif Display', serif",
-                fontSize: "40px",
-                color: COLORS.gold,
-              }}>{num}</div>
-              <div style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                fontSize: "14px",
-                color: "rgba(255,255,255,0.8)",
-                marginTop: "4px",
-              }}>{label}</div>
-            </div>
-          ))}
+          <PhotoCarousel />
+          <p style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "16px",
+            lineHeight: 1.8,
+            color: COLORS.textLight,
+            flex: "1 1 400px",
+          }}>
+            Paramhans Institute of Neurology offers specialised care in neurology, trauma, and joint replacement surgery at affordable prices. We treat stroke, epilepsy, neuropathy, and other neurological conditions with advanced diagnostics and expert care. Our trauma unit provides 24/7 emergency services for acute injuries. The orthopaedic team performs total and partial knee and hip replacements using modern techniques. With 62 centrally air-conditioned beds, including ICU, emergency, OPD, general ward, and deluxe rooms, we ensure comfort and care. Led by experienced doctors, we are committed to compassionate, personalised treatment focused on recovery and long-term wellness.
+          </p>
         </div>
       </section>
 
