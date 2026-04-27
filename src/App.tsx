@@ -645,8 +645,8 @@ function HomePage() {
         {/* Circle overlay - bottom right */}
         <div style={{
           position: "absolute",
-          bottom: "32px",
-          right: "clamp(16px, 6vw, 80px)",
+          bottom: "-17px",
+          right: "clamp(0px, 2vw, 80px)",
           width: "clamp(180px, 22vw, 260px)",
           height: "clamp(180px, 22vw, 260px)",
           borderRadius: "50%",
@@ -1402,7 +1402,7 @@ function ChatBot() {
                     </div>
                   </div>
                 ))}
-                
+
                 {/* Quick Options */}
                 {messages.length <= 1 ? (
                   <div style={{
