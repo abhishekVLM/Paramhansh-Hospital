@@ -16,7 +16,7 @@ const COLORS = {
   heroBg: "linear-gradient(135deg, #0B3D5E 0%, #14567A 40%, #1A6B5A 100%)",
 };
 
-const LOGO_URL = "https://img1.wsimg.com/isteam/ip/ff42b33d-2a2c-4428-a571-2c1fba72f219/PIN_LOGO__1_-removebg-preview.png/:/rs=h:90,cg:true,m/qt=q:95";
+const LOGO_URL = "/logo192.png";
 
 const teamMembers = [
   {
