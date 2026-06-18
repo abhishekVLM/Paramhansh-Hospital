@@ -616,40 +616,153 @@ function ReviewsSection() {
 }
 
 // ====================== PAGES ======================
-function PhotoCarousel() {
+function MediaCarousel() {
   const [current, setCurrent] = useState(0);
-  const photos = [
-    "/Image/hospital-1.png",
+  const [isAnimating, setIsAnimating] = useState(true);
+
+  const media = [
+    { type: "image", src: "/Image/hospital-1.png", title: "Paramhans Institute of Neurology" },
+    { type: "video", id: "X6-H1NMgC5A", title: "Dr Sanjay Kumar awarded FRCP (London)" },
+    // Add more items here:
+    // { type: "image", src: "/Image/hospital-2.png", title: "Our Facilities" },
+    // { type: "video", id: "YOUTUBE_ID", title: "Video Title" },
   ];
+
   useEffect(() => {
-    if (photos.length <= 1) return;
+    if (media.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % photos.length);
-    }, 4000);
+      if (media[current].type === "video") return;
+      setIsAnimating(false);
+      setTimeout(() => {
+        setCurrent((prev) => (prev + 1) % media.length);
+        setIsAnimating(true);
+      }, 300);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [photos.length]);
+  }, [current, media.length]);
+
+  const goTo = (index: number) => {
+    setIsAnimating(false);
+    setTimeout(() => {
+      setCurrent(index);
+      setIsAnimating(true);
+    }, 300);
+  };
+
+  const item = media[current];
+
   return (
-    <div style={{ width: "100%", flex: "1 1 400px", maxWidth: "500px", margin: "0", borderRadius: "16px", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.1)", position: "relative" }}>
-      <div style={{ display: "flex", transition: "transform 0.5s ease", transform: `translateX(-${current * 100}%)` }}>
-        {photos.map((src, i) => (
-          <img key={i} src={src} alt={`Hospital photo ${i + 1}`} style={{ width: "100%", height: "400px", objectFit: "cover", flexShrink: 0 }} />
-        ))}
-      </div>
-      {photos.length > 1 && (
-        <>
-          <div onClick={() => setCurrent((current - 1 + photos.length) % photos.length)} style={{ position: "absolute", top: "50%", left: "12px", transform: "translateY(-50%)", width: "40px", height: "40px", borderRadius: "50%", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", fontSize: "20px" }}>‹</div>
-          <div onClick={() => setCurrent((current + 1) % photos.length)} style={{ position: "absolute", top: "50%", right: "12px", transform: "translateY(-50%)", width: "40px", height: "40px", borderRadius: "50%", background: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", fontSize: "20px" }}>›</div>
-          <div style={{ position: "absolute", bottom: "16px", left: "50%", transform: "translateX(-50%)", display: "flex", gap: "8px" }}>
-            {photos.map((_, i) => (
-              <div key={i} onClick={() => setCurrent(i)} style={{ width: current === i ? "24px" : "8px", height: "8px", borderRadius: "4px", background: current === i ? COLORS.gold : "rgba(255,255,255,0.6)", cursor: "pointer", transition: "all 0.3s" }} />
-            ))}
+    <div style={{ width: "100%", flex: "1 1 400px", maxWidth: "540px", margin: "0" }}>
+      <div style={{
+        borderRadius: "16px",
+        overflow: "hidden",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.12)",
+        position: "relative",
+        background: "#0B1A2A",
+      }}>
+        <div style={{
+          opacity: isAnimating ? 1 : 0,
+          transform: isAnimating ? "scale(1)" : "scale(0.95)",
+          transition: "opacity 0.4s ease, transform 0.4s ease",
+        }}>
+          {item.type === "image" ? (
+            <img
+              src={item.src}
+              alt={item.title}
+              style={{
+                width: "100%",
+                height: "380px",
+                objectFit: "cover",
+                display: "block",
+              }}
+            />
+          ) : (
+            <iframe
+              src={`https://www.youtube.com/embed/${item.id}?rel=0&modestbranding=1`}
+              title={item.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{
+                width: "100%",
+                height: "380px",
+                border: "none",
+                display: "block",
+              }}
+            />
+          )}
+        </div>
+
+        {/* Title overlay */}
+        <div style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          padding: "40px 16px 12px",
+          background: "linear-gradient(transparent, rgba(0,0,0,0.7))",
+          opacity: isAnimating ? 1 : 0,
+          transform: isAnimating ? "translateY(0)" : "translateY(10px)",
+          transition: "opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s",
+        }}>
+          <div style={{
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "13px",
+            fontWeight: 600,
+            color: "white",
+            textAlign: "center",
+          }}>
+            {item.title}
           </div>
-        </>
+        </div>
+
+        {/* Arrows */}
+        {media.length > 1 && (
+          <>
+            <div onClick={() => goTo((current - 1 + media.length) % media.length)} style={{ position: "absolute", top: "50%", left: "8px", transform: "translateY(-50%)", width: "36px", height: "36px", borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#0B3D5E", fontSize: "18px", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.2)", transition: "transform 0.2s" }}>‹</div>
+            <div onClick={() => goTo((current + 1) % media.length)} style={{ position: "absolute", top: "50%", right: "8px", transform: "translateY(-50%)", width: "36px", height: "36px", borderRadius: "50%", background: "rgba(255,255,255,0.9)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "#0B3D5E", fontSize: "18px", fontWeight: 700, boxShadow: "0 2px 8px rgba(0,0,0,0.2)", transition: "transform 0.2s" }}>›</div>
+          </>
+        )}
+      </div>
+
+      {/* Dots */}
+      {media.length > 1 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginTop: "14px" }}>
+          {media.map((m, i) => (
+            <div key={i} onClick={() => goTo(i)} style={{
+              width: current === i ? "24px" : "8px",
+              height: "8px",
+              borderRadius: "4px",
+              background: current === i ? COLORS.gold : COLORS.border,
+              cursor: "pointer",
+              transition: "all 0.3s",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }} />
+          ))}
+        </div>
+      )}
+
+      {/* Media type indicators */}
+      {media.length > 1 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginTop: "8px" }}>
+          {media.map((m, i) => (
+            <div key={i} onClick={() => goTo(i)} style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "11px",
+              color: current === i ? COLORS.primary : COLORS.textLight,
+              cursor: "pointer",
+              fontWeight: current === i ? 700 : 400,
+              transition: "all 0.3s",
+            }}>
+              {m.type === "video" ? "🎬" : "📷"} {m.title.slice(0, 20)}{m.title.length > 20 ? "..." : ""}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
 }
-
 function HomePage() {
   return (
     <div>
@@ -762,7 +875,7 @@ function HomePage() {
           flexWrap: "wrap",
           justifyContent: "center",
         }}>
-          <PhotoCarousel />
+          <MediaCarousel />
           <p style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontSize: "16px",
@@ -774,6 +887,8 @@ function HomePage() {
           </p>
         </div>
       </section>
+
+     
 
       {/* Reviews Section */}
       <ReviewsSection />
