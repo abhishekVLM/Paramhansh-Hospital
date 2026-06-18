@@ -137,14 +137,25 @@ function AnnouncementBar() {
     <div style={{
       background: COLORS.gold,
       color: COLORS.primary,
-      textAlign: "center",
       padding: "8px 16px",
       fontFamily: "'Plus Jakarta Sans', sans-serif",
       fontSize: "13px",
       fontWeight: 600,
       letterSpacing: "0.3px",
+      overflow: "hidden",
     }}>
-      Dr Sanjay Kumar has been nominated for the prestigious FRCP.
+      <div style={{
+        animation: "announceScroll 18s linear infinite",
+        whiteSpace: "nowrap",
+      }}>
+        🎉 Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care.
+      </div>
+      <style>{`
+        @keyframes announceScroll {
+          0% { transform: translateX(50%); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
     </div>
   );
 }
