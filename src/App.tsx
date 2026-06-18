@@ -72,62 +72,62 @@ const teamMembers = [
 const diagnosticTests = [
   {
     name: "Polysomnography (Sleep Study)",
-    img: "https://img1.wsimg.com/isteam/ip/ff42b33d-2a2c-4428-a571-2c1fba72f219/WhatsApp%20Image%202025-08-11%20at%2019.01.02.jpeg/:/rs=w:388,h:194,cg:true,m/cr=w:388,h:194",
+    img: "/Image/tests/polysomnography.png",
     desc: "A special overnight test where we monitor your body while you sleep. It helps detect sleep problems like loud snoring, breathing stops during sleep (sleep apnea), restless or poor sleep, and daytime tiredness. We use sensors to record brain waves, breathing, heart rate, and body movement while you sleep. It's painless and done in a quiet, comfortable room.",
   },
   {
     name: "Urodynamics",
-    img: "https://img1.wsimg.com/isteam/getty/1020849404/:/cr=t:25%25,l:0%25,w:100%25,h:50%25/rs=w:388,h:194,cg:true",
+    img: "/Image/tests/urodynamics.png",
     desc: "This test checks how well your bladder and urinary system are working. It's useful if you have trouble passing urine, urinate too often or too little, leak urine (incontinence), or have nerve-related bladder issues. We use small tubes and machines to measure how your bladder fills and empties.",
   },
   {
     name: "Musculoskeletal Ultrasound (MSK USG)",
-    img: "https://img1.wsimg.com/isteam/ip/ff42b33d-2a2c-4428-a571-2c1fba72f219/WhatsApp%20Image%202025-08-11%20at%2019.04.21.jpeg/:/cr=t:0%25,l:5.31%25,w:89.38%25,h:100%25/rs=w:388,h:194,cg:true",
+    img: "/Image/tests/msk-usg.png",
     desc: "A safe and painless scan that uses sound waves to see muscles, joints, ligaments, and nerves. Used for muscle pain or swelling, sports injuries, joint problems like arthritis, and nerve entrapment such as carpal tunnel.",
   },
   {
     name: "Echocardiography (Echo)",
-    img: "https://img1.wsimg.com/isteam/getty/2151518581/:/rs=w:388,h:194,cg:true,m/cr=w:388,h:194",
+    img: "/Image/tests/echo.png",
     desc: "An ultrasound of your heart that shows how well your heart is pumping blood and how your valves are working. Useful for chest pain, high blood pressure, heart murmurs, and shortness of breath. Completely safe, painless, and takes about 20-30 minutes.",
   },
   {
     name: "Ultrasonography (USG)",
-    img: "https://img1.wsimg.com/isteam/getty/858504534/:/rs=w:388,h:194,cg:true,m/cr=w:388,h:194",
+    img: "/Image/tests/usg.png",
     desc: "A general ultrasound test for viewing internal organs like liver, kidney, gallbladder, abdomen, uterus or prostate. It helps find stones, tumours, infections, or other internal problems. No radiation is used, so it's very safe.",
   },
   {
     name: "CT Scan (Brain and Body)",
-    img: "https://img1.wsimg.com/isteam/ip/ff42b33d-2a2c-4428-a571-2c1fba72f219/WhatsApp%20Image%202025-08-11%20at%2019.01.02-c689eb9.jpeg/:/cr=t:0%25,l:5.31%25,w:89.38%25,h:100%25/rs=w:388,h:194,cg:true",
+    img: "/Image/tests/ct-scan.png",
     desc: "A fast, advanced scan that gives detailed pictures of your brain or other body parts. Used for stroke or head injury, tumors, brain swelling or bleeding, and abdominal pain or trauma. Provides quicker results than many other imaging tests.",
   },
   {
     name: "Nerve Conduction Study (NCS)",
-    img: null,
-    desc: "This test checks how fast and how strong signals are traveling in your nerves. Helpful for numbness or tingling, nerve pain, muscle weakness, and diabetic neuropathy. Small electrodes are placed on your skin, and a mild electrical signal is passed through your nerves — it's safe and tolerable.",
+    img: "/Image/tests/ncs.png",
+    desc: "This test checks how fast and how strong signals are traveling in your nerves. Helpful for numbness or tingling, nerve pain, muscle weakness, and diabetic neuropathy. Small electrodes are placed on your skin, and a mild electrical signal is passed through your nerves. It's safe and tolerable.",
   },
   {
     name: "EEG / Video EEG",
-    img: null,
+    img: "/Image/tests/eeg.png",
     desc: "EEG (electroencephalogram) records brain activity through small wires placed on your scalp. Video EEG includes a camera to record your movements during the test. Used to detect seizures or epilepsy, unexplained blackouts or fainting, and brain infections or tumors. It's non-invasive and pain-free.",
   },
   {
     name: "Holter Monitoring",
-    img: null,
+    img: "/Image/tests/holter.png",
     desc: "A small device (like a portable ECG) is attached to your chest and worn for 24-48 hours. It records your heart's activity while you go about your daily routine. Used for irregular heartbeat, palpitations, fainting spells, and monitoring pacemaker function.",
   },
   {
     name: "Vertigo & Balance Testing Panel",
-    img: "https://img1.wsimg.com/isteam/getty/2191431900/:/cr=t:25%25,l:0%25,w:100%25,h:50%25/rs=w:388,h:194,cg:true",
+    img: "/Image/tests/vertigo.png",
     desc: "A group of tests that help find the cause of dizziness, vertigo (feeling like the room is spinning), and balance problems or frequent falls. Includes VNG, Audiometry, BERA, Tilt Table Test, and vHIT.",
   },
   {
     name: "Autonomic Function Test",
-    img: null,
+    img: "/Image/tests/autonomic.png",
     desc: "These tests check how your body controls automatic actions like blood pressure, heart rate, sweating, and body temperature. Useful in patients who have fainting, dizziness, or nervous system problems like diabetes-related nerve damage.",
   },
   {
     name: "Fully Automated Biochemistry Lab",
-    img: null,
+    img: "/Image/tests/lab.png",
     desc: "Our lab offers blood tests (sugar, liver, kidney, cholesterol, etc.), urine tests, and hormone and thyroid tests. All tests are done on advanced machines for fast, accurate results. 100% automation for quality you can trust.",
   },
 ];
