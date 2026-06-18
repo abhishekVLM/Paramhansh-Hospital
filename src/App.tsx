@@ -148,7 +148,7 @@ function AnnouncementBar() {
         animation: "announceScroll 18s linear infinite",
         whiteSpace: "nowrap",
       }}>
-        🎉 Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care.
+        🎉 Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🎉 Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care.
       </div>
       <style>{`
         @keyframes announceScroll {
