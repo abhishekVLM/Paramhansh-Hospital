@@ -857,8 +857,6 @@ function HomePage() {
         background: "#EDF4F8",
       }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          </div>
-
         <h2 style={{
           fontFamily: "'DM Serif Display', serif",
           fontSize: "clamp(24px, 4vw, 36px)",
@@ -885,6 +883,7 @@ function HomePage() {
           }}>
             Paramhans Institute of Neurology offers specialised care in neurology, trauma, and joint replacement surgery at affordable prices. We treat stroke, epilepsy, neuropathy, and other neurological conditions with advanced diagnostics and expert care. Our trauma unit provides 24/7 emergency services for acute injuries. The orthopaedic team performs total and partial knee and hip replacements using modern techniques. With 62 centrally air-conditioned beds, including ICU, emergency, OPD, general ward, and deluxe rooms, we ensure comfort and care. Led by experienced doctors, we are committed to compassionate, personalised treatment focused on recovery and long-term wellness.
           </p>
+        </div>
         </div>
       </section>
 
