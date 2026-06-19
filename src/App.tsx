@@ -1127,7 +1127,9 @@ function TeamPage() {
                   <img
                     src={doc.img}
                     alt={doc.name}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
+                    loading="lazy"
+                    onLoad={(e) => (e.target as HTMLImageElement).style.opacity = "1"}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", opacity: 0, transition: "opacity 0.4s ease" }}
                   />
                 ) : (
                   <div style={{
@@ -1211,11 +1213,16 @@ function TestsPage() {
               border: `1px solid ${COLORS.border}`,
               boxShadow: "0 4px 16px rgba(0,0,0,0.05)",
             }}>
-              {test.img && (
-                <div style={{
-                  height: "180px",
-                  background: `${COLORS.bg} url(${test.img}) center/cover no-repeat`,
-                }} />
+               {test.img && (
+                <div style={{ height: "180px", overflow: "hidden", background: `linear-gradient(135deg, ${COLORS.bg}, #dce6f0)` }}>
+                  <img
+                    src={test.img}
+                    alt={test.name}
+                    loading="lazy"
+                    onLoad={(e) => (e.target as HTMLImageElement).style.opacity = "1"}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0, transition: "opacity 0.4s ease" }}
+                  />
+                </div>
               )}
               {!test.img && (
                 <div style={{
