@@ -1422,7 +1422,7 @@ function DoctorPage() {
         <div style={{ display: "flex", gap: SP[6], alignItems: "flex-start", flexWrap: "wrap", justifyContent: "center" }}>
           <Reveal y={32}>
             <img
-              src="/Image/team/drkumar.jpg"
+              src="/Image/drkumar.jpg"
               alt="Dr.Sanjay Kumar"
               style={{
                 width: "360px",
