@@ -28,6 +28,14 @@ import {
   Siren,
   Users,
   Quote,
+  Brain,
+  Bone,
+  Ambulance,
+  Microscope,
+  Activity,
+  HeartPulse,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 const COLORS = {
@@ -70,8 +78,15 @@ const LOGO_URL = "/logo192.png";
 function GlobalStyles() {
   return (
     <style>{`
-      html { scroll-behavior: smooth; }
-      body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+      body { overflow-x: clip; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+      img { max-width: 100%; }
+
+      .nav-logo { height: 90px; flex-shrink: 0; }
+      @media (max-width: 1024px) { .nav-logo { height: 76px; } }
+      @media (max-width: 768px)  { .nav-logo { height: 64px; } }
+      @media (max-width: 480px)  { .nav-logo { height: 54px; } }
 
       .glass-card {
         background: rgba(255, 255, 255, 0.72);
@@ -150,10 +165,60 @@ function GlobalStyles() {
         .brand-name { display: none; }
       }
 
+      /* What we offer + tests + CTA dynamic sections */
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      @keyframes callPulse {
+        0% { box-shadow: 0 8px 22px rgba(0,0,0,0.25), 0 0 0 0 rgba(34,184,144,0.55); }
+        70% { box-shadow: 0 8px 22px rgba(0,0,0,0.25), 0 0 0 16px rgba(34,184,144,0); }
+        100% { box-shadow: 0 8px 22px rgba(0,0,0,0.25), 0 0 0 0 rgba(34,184,144,0); }
+      }
+      @keyframes spotIn {
+        from { opacity: 0; transform: translateY(16px) scale(0.985); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes progressFill {
+        from { width: 0%; }
+        to   { width: 100%; }
+      }
+      @keyframes tickerScroll {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+      .service-card {
+        transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                    box-shadow 0.4s ease, border-color 0.4s ease;
+      }
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 26px 52px rgba(11,61,94,0.18);
+        border-color: rgba(26,138,110,0.55);
+      }
+      .service-card .svc-icon {
+        transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1),
+                    background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+      }
+      .service-card:hover .svc-icon {
+        transform: rotate(-8deg) scale(1.12);
+        background: linear-gradient(160deg, ${COLORS.accent}, ${COLORS.accentLight});
+        color: #fff;
+        box-shadow: 0 12px 26px rgba(26,138,110,0.35);
+      }
+      .call-pulse { animation: callPulse 2.4s ease-out infinite; }
+      .spot-in { animation: spotIn 0.6s cubic-bezier(0.22,1,0.36,1) both; }
+      .test-dot { transition: width 0.3s ease, background 0.3s ease; }
+
       @media (max-width: 768px) {
         .desktop-nav { display: none !important; }
         .mobile-menu-btn { display: flex !important; }
         .section-pad { padding-top: 56px !important; padding-bottom: 56px !important; }
+      }
+
+      @media (max-width: 480px) {
+        .section-pad { padding-left: 18px !important; padding-right: 18px !important; }
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -455,39 +520,6 @@ function AnnouncementBar() {
   );
 }
 
-function PhoneBar() {
-  const linkStyle: CSSProperties = {
-    color: COLORS.white,
-    textDecoration: "none",
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "6px",
-  };
-  return (
-    <div
-      style={{
-        background: COLORS.primary,
-        color: COLORS.white,
-        textAlign: "center",
-        padding: "7px 16px",
-        fontFamily: "'Plus Jakarta Sans', sans-serif",
-        fontSize: "13px",
-        display: "flex",
-        justifyContent: "center",
-        gap: SP[3],
-        flexWrap: "wrap",
-      }}
-    >
-      <a href="tel:+919304508599" style={linkStyle}>
-        <Phone size={13} /> +91 9304508599
-      </a>
-      <a href="tel:06122666667" style={linkStyle}>
-        <Phone size={13} /> 0612-2666667
-      </a>
-    </div>
-  );
-}
-
 function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page: string) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -550,7 +582,7 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
           onClick={() => setPage("home")}
           style={{ display: "flex", alignItems: "center", gap: SP[2], cursor: "pointer", minWidth: 0 }}
         >
-          <img src={LOGO_URL} alt="" style={{ height: "90px", flexShrink: 0 }} />
+          <img src={LOGO_URL} alt="" className="nav-logo" />
           <span className="brand-name">Paramhans Institute of Neurology</span>
         </div>
 
@@ -1220,7 +1252,448 @@ function MediaCarousel() {
 
 // ====================== PAGES ======================
 
-function HomePage() {
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Shared eyebrow + heading block. `light` flips colours for dark backgrounds.
+function SectionHeading({
+  eyebrow,
+  title,
+  subtitle,
+  light = false,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  light?: boolean;
+}) {
+  return (
+    <div style={{ textAlign: "center", maxWidth: "720px", margin: "0 auto" }}>
+      <Reveal>
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            fontFamily: "'Plus Jakarta Sans', sans-serif",
+            fontSize: "12.5px",
+            fontWeight: 700,
+            letterSpacing: "1.6px",
+            textTransform: "uppercase",
+            color: light ? COLORS.gold : COLORS.accent,
+            marginBottom: SP[2],
+          }}
+        >
+          <Sparkles size={15} /> {eyebrow}
+        </span>
+      </Reveal>
+      <Reveal delay={80}>
+        <h2
+          style={{
+            fontFamily: "'DM Serif Display', serif",
+            fontSize: "clamp(28px, 4.4vw, 42px)",
+            color: light ? COLORS.white : COLORS.primary,
+            letterSpacing: "-0.5px",
+            lineHeight: 1.15,
+            margin: 0,
+          }}
+        >
+          {title}
+        </h2>
+      </Reveal>
+      {subtitle && (
+        <Reveal delay={140}>
+          <p
+            style={{
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontSize: "16px",
+              lineHeight: 1.7,
+              color: light ? "rgba(255,255,255,0.82)" : COLORS.textLight,
+              marginTop: SP[2],
+            }}
+          >
+            {subtitle}
+          </p>
+        </Reveal>
+      )}
+    </div>
+  );
+}
+
+// ====================== WHAT WE OFFER ======================
+function WhatWeOffer() {
+  const services: Array<{ Icon: LucideIcon; title: string; desc: string }> = [
+    { Icon: Brain, title: "Neurology", desc: "Expert care for stroke, epilepsy, neuropathy and other neurological conditions." },
+    { Icon: Activity, title: "Trauma Surgery", desc: "A round-the-clock trauma unit for acute injuries, with prompt surgical care." },
+    { Icon: Bone, title: "Joint Replacement", desc: "Total and partial knee and hip replacements using modern techniques." },
+    { Icon: Ambulance, title: "Emergency Care", desc: "24/7 emergency services backed by ICU support and a rapid-response team." },
+    { Icon: Microscope, title: "Diagnostics", desc: "On-site testing and imaging for fast, accurate diagnosis and planning." },
+    { Icon: HeartPulse, title: "Rehabilitation", desc: "Personalised recovery and physiotherapy focused on long-term wellness." },
+  ];
+  return (
+    <section className="section-pad" style={{ padding: `${SP[10]}px 24px`, background: COLORS.bg }}>
+      <div style={{ maxWidth: "1140px", margin: "0 auto" }}>
+        <SectionHeading
+          eyebrow="What We Offer"
+          title="Our Specialities"
+          subtitle="Comprehensive, affordable care across neurology, surgery and emergency medicine, all under one roof."
+        />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: SP[3],
+            marginTop: SP[7],
+          }}
+        >
+          {services.map((s, i) => {
+            const { Icon } = s;
+            return (
+              <Reveal key={s.title} delay={i * 90} y={28} style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  className="service-card"
+                  style={{
+                    background: COLORS.white,
+                    border: `1px solid ${COLORS.border}`,
+                    borderRadius: "18px",
+                    padding: SP[4],
+                    flex: 1,
+                    boxShadow: "0 6px 24px rgba(11,61,94,0.06)",
+                  }}
+                >
+                  <div
+                    className="svc-icon"
+                    style={{
+                      width: "58px",
+                      height: "58px",
+                      borderRadius: "16px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      background: "linear-gradient(160deg, rgba(26,138,110,0.14), rgba(34,184,144,0.06))",
+                      color: COLORS.accent,
+                      marginBottom: SP[3],
+                    }}
+                  >
+                    <Icon size={28} strokeWidth={2} />
+                  </div>
+                  <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "22px", color: COLORS.primary, margin: `0 0 ${SP[1]}px` }}>
+                    {s.title}
+                  </h3>
+                  <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "14.5px", lineHeight: 1.65, color: COLORS.textLight, margin: 0 }}>
+                    {s.desc}
+                  </p>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ====================== TESTS SHOWCASE ======================
+// Auto-rotates through every diagnostic test one by one. Pauses on hover,
+// pauses when off-screen, and stops auto-advancing under reduced motion.
+function TestsShowcase({ setPage }: { setPage: (page: string) => void }) {
+  const total = diagnosticTests.length;
+  const reduced = prefersReducedMotion();
+  const [idx, setIdx] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => setVisible(e.isIntersecting)),
+      { threshold: 0.25 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (reduced || !visible || paused) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % total), 3800);
+    return () => clearInterval(t);
+  }, [reduced, visible, paused, total]);
+
+  const test = diagnosticTests[idx];
+
+  return (
+    <section
+      ref={ref}
+      className="section-pad"
+      style={{
+        padding: `${SP[10]}px 24px`,
+        background: "linear-gradient(180deg, #EDF4F8 0%, #F7F9FB 100%)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <AccentGlow top="8%" right="-6%" color={COLORS.accent} opacity={0.07} />
+      <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative" }}>
+        <SectionHeading
+          eyebrow="Diagnostics"
+          title="Tests We Run"
+          subtitle="A live look at our in-house diagnostic services, on rotation. Hover to pause."
+        />
+
+        {/* Continuous ticker of every test name */}
+        <div
+          style={{
+            marginTop: SP[5],
+            overflow: "hidden",
+            WebkitMaskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)",
+            maskImage: "linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)",
+          }}
+        >
+          <div style={{ display: "inline-flex", gap: SP[3], whiteSpace: "nowrap", animation: "tickerScroll 36s linear infinite" }}>
+            {[...diagnosticTests, ...diagnosticTests].map((t, i) => (
+              <span
+                key={i}
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: COLORS.textLight,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "7px",
+                }}
+              >
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: COLORS.accent, display: "inline-block", flexShrink: 0 }} />
+                {t.name}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Spotlight card */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          style={{
+            marginTop: SP[6],
+            background: COLORS.white,
+            border: `1px solid ${COLORS.border}`,
+            borderRadius: "22px",
+            overflow: "hidden",
+            boxShadow: "0 16px 48px rgba(11,61,94,0.12)",
+          }}
+        >
+          <div key={idx} className="spot-in" style={{ display: "flex", flexWrap: "wrap" }}>
+            <div style={{ flex: "1 1 320px", minHeight: "240px", background: `linear-gradient(135deg, ${COLORS.bg}, #dce6f0)` }}>
+              <img
+                src={test.img}
+                alt={test.name}
+                loading="lazy"
+                style={{ width: "100%", height: "100%", maxHeight: "330px", objectFit: "cover", display: "block" }}
+              />
+            </div>
+            <div style={{ flex: "1 1 340px", padding: SP[5], display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div
+                style={{
+                  fontFamily: "'Plus Jakarta Sans', sans-serif",
+                  fontSize: "12.5px",
+                  fontWeight: 700,
+                  letterSpacing: "1.2px",
+                  textTransform: "uppercase",
+                  color: COLORS.accent,
+                  marginBottom: SP[1],
+                }}
+              >
+                Test {idx + 1} of {total}
+              </div>
+              <h3 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(22px, 3vw, 30px)", color: COLORS.primary, margin: `0 0 ${SP[2]}px`, lineHeight: 1.2 }}>
+                {test.name}
+              </h3>
+              <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "15px", lineHeight: 1.7, color: COLORS.textLight, margin: 0 }}>
+                {test.desc}
+              </p>
+            </div>
+          </div>
+          {/* Progress bar to next test */}
+          <div style={{ height: "4px", background: COLORS.border }}>
+            <div
+              key={`p-${idx}`}
+              style={{
+                height: "100%",
+                background: `linear-gradient(90deg, ${COLORS.accent}, ${COLORS.gold})`,
+                width: reduced ? "100%" : "0%",
+                animation: reduced ? "none" : "progressFill 3.8s linear forwards",
+                animationPlayState: paused ? "paused" : "running",
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Dots */}
+        <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "8px", marginTop: SP[4] }}>
+          {diagnosticTests.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Show test ${i + 1}`}
+              onClick={() => setIdx(i)}
+              className="test-dot btn-press"
+              style={{
+                width: i === idx ? "26px" : "9px",
+                height: "9px",
+                borderRadius: "5px",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+                background: i === idx ? COLORS.accent : COLORS.border,
+              }}
+            />
+          ))}
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: SP[5] }}>
+          <button
+            onClick={() => {
+              setPage("tests");
+              window.scrollTo(0, 0);
+            }}
+            className="btn-press"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              background: COLORS.white,
+              border: `2px solid ${COLORS.border}`,
+              padding: "13px 28px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              fontFamily: "'Plus Jakarta Sans', sans-serif",
+              fontWeight: 600,
+              fontSize: "15px",
+              color: COLORS.primary,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+            }}
+          >
+            View All Tests <ArrowRight size={18} color={COLORS.accent} />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ====================== APPOINTMENT CTA ======================
+function AppointmentCTA({ setPage }: { setPage: (page: string) => void }) {
+  return (
+    <section
+      className="section-pad"
+      style={{
+        padding: `${SP[10]}px 24px`,
+        background:
+          "radial-gradient(800px 400px at 18% 12%, rgba(34,184,144,0.34), transparent 60%)," +
+          `linear-gradient(135deg, ${COLORS.primary} 0%, #0E4A6F 55%, #11645A 100%)`,
+        backgroundSize: "200% 200%, 200% 200%",
+        animation: "gradientShift 16s ease infinite",
+        position: "relative",
+        overflow: "hidden",
+        textAlign: "center",
+      }}
+    >
+      <AccentGlow top="-20%" right="-6%" color={COLORS.gold} opacity={0.16} size={420} />
+      <div style={{ position: "relative", maxWidth: "760px", margin: "0 auto" }}>
+        <Reveal>
+          <h2 style={{ fontFamily: "'DM Serif Display', serif", fontSize: "clamp(30px, 5vw, 46px)", color: COLORS.white, letterSpacing: "-0.5px", margin: 0, lineHeight: 1.15 }}>
+            Book Your Appointment
+          </h2>
+        </Reveal>
+        <Reveal delay={80}>
+          <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "16px", lineHeight: 1.7, color: "rgba(255,255,255,0.85)", marginTop: SP[2] }}>
+            Speak with our team and we will help you find the right specialist and a time that works for you.
+          </p>
+        </Reveal>
+        <Reveal delay={140}>
+          <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "13px", fontWeight: 700, letterSpacing: "1.4px", textTransform: "uppercase", color: COLORS.gold, margin: `${SP[4]}px 0 ${SP[2]}px` }}>
+            Call us on either number
+          </p>
+        </Reveal>
+        <Reveal delay={200}>
+          <div style={{ display: "flex", gap: SP[2], justifyContent: "center", flexWrap: "wrap" }}>
+            <a
+              href="tel:+919304508599"
+              className="btn-press call-pulse"
+              style={{
+                background: `linear-gradient(135deg, ${COLORS.accent}, ${COLORS.accentLight})`,
+                color: COLORS.white,
+                padding: "15px 30px",
+                borderRadius: "12px",
+                textDecoration: "none",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 700,
+                fontSize: "15.5px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "9px",
+              }}
+            >
+              <Phone size={18} /> +91 9304508599
+            </a>
+            <a
+              href="tel:06122666667"
+              className="btn-press"
+              style={{
+                background: "rgba(255,255,255,0.12)",
+                color: COLORS.white,
+                padding: "15px 30px",
+                borderRadius: "12px",
+                textDecoration: "none",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 700,
+                fontSize: "15.5px",
+                border: "1px solid rgba(255,255,255,0.35)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "9px",
+              }}
+            >
+              <Phone size={18} /> 0612-2666667
+            </a>
+          </div>
+        </Reveal>
+        <Reveal delay={260}>
+          <div style={{ marginTop: SP[3] }}>
+            <button
+              onClick={() => {
+                setPage("team");
+                window.scrollTo(0, 0);
+              }}
+              className="btn-press"
+              style={{
+                background: "transparent",
+                color: "rgba(255,255,255,0.9)",
+                padding: "11px 22px",
+                borderRadius: "10px",
+                cursor: "pointer",
+                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                fontWeight: 600,
+                fontSize: "14.5px",
+                border: "1px solid rgba(255,255,255,0.25)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              <Users size={18} /> Meet Our Team
+            </button>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function HomePage({ setPage }: { setPage: (page: string) => void }) {
   const stats: Array<{ icon: LucideIcon; num: string; label: string }> = [
     { icon: BedDouble, num: "60+", label: "Air-Conditioned Beds" },
     { icon: Siren, num: "24/7", label: "Emergency Services" },
@@ -1349,6 +1822,8 @@ function HomePage() {
         </div>
       </section>
 
+      <WhatWeOffer />
+
       {/* Stats */}
       <section
         className="section-pad"
@@ -1417,6 +1892,10 @@ function HomePage() {
           })}
         </div>
       </section>
+
+      <TestsShowcase setPage={setPage} />
+
+      <AppointmentCTA setPage={setPage} />
 
       {/* Reviews Section */}
       <ReviewsSection />
@@ -2190,7 +2669,7 @@ export default function App() {
   const renderPage = () => {
     switch (page) {
       case "home":
-        return <HomePage />;
+        return <HomePage setPage={setPage} />;
       case "doctor":
         return <DoctorPage />;
       case "mission":
@@ -2200,7 +2679,7 @@ export default function App() {
       case "tests":
         return <TestsPage />;
       default:
-        return <HomePage />;
+        return <HomePage setPage={setPage} />;
     }
   };
 
@@ -2208,7 +2687,6 @@ export default function App() {
     <div style={{ minHeight: "100vh", background: COLORS.bg, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <GlobalStyles />
       <AnnouncementBar />
-      <PhoneBar />
       <NavBar currentPage={page} setPage={setPage} />
       <main>{renderPage()}</main>
       <Footer setPage={setPage} />
