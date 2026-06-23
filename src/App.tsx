@@ -120,6 +120,36 @@ function GlobalStyles() {
         100% { transform: translateX(-100%); }
       }
 
+      /* Animated hospital name beside the logo */
+      @keyframes brandIn {
+        from { opacity: 0; transform: translateY(8px); filter: blur(6px); }
+        to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+      }
+      @keyframes brandShimmer {
+        to { background-position: 200% center; }
+      }
+      .brand-name {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 800;
+        font-size: clamp(15px, 4.2vw, 22px);
+        line-height: 1.12;
+        letter-spacing: -0.3px;
+        max-width: 300px;
+        background: linear-gradient(90deg,
+          ${COLORS.primary} 0%, #14567A 20%, ${COLORS.accent} 38%,
+          #F4DD92 50%, ${COLORS.accent} 62%, #14567A 80%, ${COLORS.primary} 100%);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+        animation: brandIn 0.8s cubic-bezier(0.22,1,0.36,1) both,
+                   brandShimmer 4.5s linear infinite;
+      }
+      @media (max-width: 380px) {
+        .brand-name { display: none; }
+      }
+
       @media (max-width: 768px) {
         .desktop-nav { display: none !important; }
         .mobile-menu-btn { display: flex !important; }
@@ -516,12 +546,13 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
           justifyContent: "space-between",
         }}
       >
-        <img
-          src={LOGO_URL}
-          alt="Paramhans Institute"
-          style={{ height: "90px", cursor: "pointer" }}
+        <div
           onClick={() => setPage("home")}
-        />
+          style={{ display: "flex", alignItems: "center", gap: SP[2], cursor: "pointer", minWidth: 0 }}
+        >
+          <img src={LOGO_URL} alt="" style={{ height: "90px", flexShrink: 0 }} />
+          <span className="brand-name">Paramhans Institute of Neurology</span>
+        </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: SP[4] }} className="desktop-nav">
           {navLink("Home", "home")}
