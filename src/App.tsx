@@ -1,3 +1,51 @@
+/* =============================================================================
+   PARAMHANS INSTITUTE OF NEUROLOGY - WEBSITE
+   =============================================================================
+
+   HOW TO EDIT THIS SITE (a plain-English guide)
+   ---------------------------------------------
+   This whole website lives in this one file (App.tsx). You do NOT need to be a
+   programmer to change the words, phone numbers, doctors, tests, or colours.
+   Look for comments that start with  "EDIT:"  - those mark the spots you are
+   most likely to want to change. Change the text *between the quote marks* and
+   leave the punctuation (quotes, commas, < > brackets) exactly as it is.
+
+   WHERE TO FIND COMMON THINGS (search the file for these to jump to them):
+     - Colours / theme ............ search:  const COLORS
+     - Logo image ................. search:  const LOGO_URL
+     - Top scrolling announcement . search:  function AnnouncementBar
+     - Red "payments" warning ..... search:  function PaymentNotice
+     - Menu links / hospital name . search:  function NavBar
+     - Home page hero video ....... search:  HERO VIDEO
+     - "What We Offer" cards ....... search:  function WhatWeOffer
+     - Stats (beds, patients) ..... search:  EDIT: HOME PAGE STATS
+     - "Tests We Run" rotation .... search:  function TestsShowcase
+     - "Book Appointment" + phones  search:  function AppointmentCTA
+     - Doctors / Our Team ......... search:  const teamMembers
+     - Diagnostic tests list ...... search:  const diagnosticTests
+     - Patient reviews ............ search:  const reviews
+     - Footer (address, email) .... search:  function Footer
+     - Chatbot questions/answers .. search:  const chatbotFAQ
+
+   IMPORTANT - CHANGING THE PHONE NUMBER:
+     The main number (9304508599) and landline (06122666667) appear in several
+     places (footer, chatbot, hero, appointment section). The safest way to
+     change a number everywhere is your editor's "Find & Replace": search for
+     9304508599 and replace every match with the new number. Do the same for
+     06122666667 if the landline changes.
+
+   AFTER EDITING:
+     Save the file, then from a terminal run:  npm run deploy
+     (test locally first with:  npm start)
+
+   A FEW RULES SO NOTHING BREAKS:
+     - Keep every opening quote " paired with a closing quote ".
+     - Keep the commas between items in a list.
+     - Don't delete the < > brackets or the words in CAPITALS like COLORS or SP.
+     - If something looks like code (curly braces { }, arrows =>), leave it alone
+       unless a comment tells you it's safe to change.
+   ============================================================================= */
+
 import { useState, useEffect, useRef } from "react";
 import type { ReactNode, CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
@@ -38,20 +86,25 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+// ====================== COLOURS / THEME ======================
+// EDIT: These are the website's colours. Each value is a "hex code" (the # and
+// six characters after it). To change a colour, replace the code between the
+// quotes. You can get a new hex code from any colour picker (e.g. Google
+// "color picker"). Changing one here updates that colour everywhere it's used.
 const COLORS = {
-  primary: "#0B3D5E",
-  primaryLight: "#14567A",
-  accent: "#1A8A6E",
-  accentLight: "#22B890",
-  gold: "#C9A84C",
-  bg: "#F7F9FB",
-  white: "#FFFFFF",
-  text: "#1E2A3A",
-  textLight: "#5A6B7E",
-  border: "#E2E8F0",
-  danger: "#C0392B",
-  cardBg: "#FFFFFF",
-  heroBg: "linear-gradient(135deg, #0B3D5E 0%, #14567A 40%, #1A6B5A 100%)",
+  primary: "#0B3D5E",       // EDIT: main dark blue (headings, footer, nav)
+  primaryLight: "#14567A",  // EDIT: lighter blue (gradients)
+  accent: "#1A8A6E",        // EDIT: green (buttons, highlights, icons)
+  accentLight: "#22B890",   // EDIT: lighter green (gradients)
+  gold: "#C9A84C",          // EDIT: gold (announcement bar, accents, stats)
+  bg: "#F7F9FB",            // EDIT: page background (very light grey)
+  white: "#FFFFFF",         // white - usually leave as is
+  text: "#1E2A3A",          // EDIT: main body text colour (near-black)
+  textLight: "#5A6B7E",     // EDIT: lighter grey text (descriptions)
+  border: "#E2E8F0",        // EDIT: thin border/line colour (light grey)
+  danger: "#C0392B",        // EDIT: red (the "payments" warning bar)
+  cardBg: "#FFFFFF",        // card background (white)
+  heroBg: "linear-gradient(135deg, #0B3D5E 0%, #14567A 40%, #1A6B5A 100%)", // page-header gradient on inner pages
 };
 
 // 8px spacing scale. Use these everywhere instead of arbitrary pixel values.
@@ -69,12 +122,15 @@ const SP = {
   12: 96,
 };
 
+// EDIT: The logo shown in the top menu bar. To use a different logo, put your
+// image file in the "public" folder and write its path here, e.g. "/my-logo.png".
 const LOGO_URL = "/logo192.png";
 
-// ====================== GLOBAL STYLES ======================
-// One place for hover states, glass cards, keyframes, responsive padding,
-// and reduced-motion handling. Inline styles can't do :hover or @media,
-// so the reusable bits live here as classes.
+// ====================== GLOBAL STYLES (ADVANCED) ======================
+// This holds the animations, hover effects, glass-card look, and the rules that
+// make the site fit phones/tablets/desktops. It is written in CSS. Most editors
+// will NOT need to touch this - changing text, colours, doctors and tests is all
+// done elsewhere. Only edit here if you know CSS.
 function GlobalStyles() {
   return (
     <style>{`
@@ -378,6 +434,19 @@ function CountUpStat({ value, style }: { value: string; style?: CSSProperties })
   );
 }
 
+// ====================== DOCTORS / OUR TEAM ======================
+// EDIT: This is the list of doctors shown on the "Our Team" page.
+// Each doctor is one block between { and }. To:
+//   - CHANGE a doctor: edit the text between the quotes.
+//   - ADD a doctor: copy one whole block (from { to },) and paste it, then edit.
+//   - REMOVE a doctor: delete that doctor's whole block (the { ... }, lines).
+// Fields:
+//   name  = doctor's name
+//   title = role shown under the name (leave as "" for none)
+//   img   = photo path. Put the photo in  public/Image/team/  and write the
+//           path here, e.g. "/Image/team/new-doctor.jpg".
+//   quals = qualifications shown on the back of the card. Separate items with |
+// Keep the commas, quotes and { } exactly as shown.
 const teamMembers = [
   {
     name: "Dr. Sanjay Kumar",
@@ -429,6 +498,18 @@ const teamMembers = [
   },
 ];
 
+// ====================== DIAGNOSTIC TESTS ======================
+// EDIT: This is the master list of tests. It is used in TWO places automatically:
+//   1) the full "All Tests" page, and
+//   2) the rotating "Tests We Run" section on the home page.
+// Change it here once and both update. Each test is one block between { and }.
+//   - ADD a test:    copy a whole block (from { to },) and edit it.
+//   - REMOVE a test: delete that block.
+// Fields:
+//   name = test name
+//   img  = picture path. Put the image in  public/Image/tests/  and write the
+//          path here, e.g. "/Image/tests/new-test.png".
+//   desc = the description paragraph.
 const diagnosticTests = [
   {
     name: "Polysomnography (Sleep Study)",
@@ -492,10 +573,13 @@ const diagnosticTests = [
   },
 ];
 
+// ====================== TOP ANNOUNCEMENT BAR ======================
+// The gold strip that scrolls across the very top of every page.
 function AnnouncementBar() {
   const message = (
     <span style={{ display: "inline-flex", alignItems: "center", gap: SP[1] }}>
       <Award size={15} strokeWidth={2.4} />
+      {/* EDIT: change the announcement text below (keep it on one line). */}
       Dr Sanjay Kumar is now FRCP (London). One of the highest honours a physician can receive, awarded for his dedication to world-class neurological care.
     </span>
   );
@@ -520,6 +604,8 @@ function AnnouncementBar() {
   );
 }
 
+// ====================== TOP MENU BAR (NAVIGATION) ======================
+// The sticky bar with the logo, hospital name, and menu links.
 function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page: string) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
@@ -583,6 +669,8 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
           style={{ display: "flex", alignItems: "center", gap: SP[2], cursor: "pointer", minWidth: 0 }}
         >
           <img src={LOGO_URL} alt="" className="nav-logo" />
+          {/* EDIT: the hospital name shown next to the logo (it has the gold
+              shimmer animation). Change the text between the > and < below. */}
           <span className="brand-name">Paramhans Institute of Neurology</span>
         </div>
 
@@ -625,6 +713,9 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
                   overflow: "hidden",
                 }}
               >
+                {/* EDIT: the items in the "About Us" drop-down menu. The first
+                    text in each line is what's shown; leave the second word
+                    (the page id like "doctor") unchanged. */}
                 {[
                   ["Dr. Sanjay Kumar", "doctor"],
                   ["Mission & Vision", "mission"],
@@ -706,6 +797,8 @@ function NavBar({ currentPage, setPage }: { currentPage: string; setPage: (page:
   );
 }
 
+// ====================== RED "PAYMENTS" WARNING BAR ======================
+// The red scrolling warning shown on the home page.
 function PaymentNotice() {
   return (
     <div
@@ -721,6 +814,8 @@ function PaymentNotice() {
       }}
     >
       <div style={{ animation: "marquee 20s linear infinite", whiteSpace: "nowrap" }}>
+        {/* EDIT: the warning text. It is written twice so it scrolls without a
+            gap - if you change it, change BOTH copies to the same wording. */}
         Please make all payments at the hospital counter with a receipt; No phone or web payments accepted. &nbsp;&nbsp;&nbsp;
         Please make all payments at the hospital counter with a receipt; No phone or web payments accepted.
       </div>
@@ -728,6 +823,11 @@ function PaymentNotice() {
   );
 }
 
+// ====================== FOOTER ======================
+// EDIT: The bottom of every page. Inside here you can change the hospital name,
+// the street address, the phone numbers, and the email. The address and reviews
+// links point to Google Maps - leave those long links alone unless you know the
+// new Google Maps link.
 function Footer({ setPage }: { setPage: (page: string) => void }) {
   const contactStyle: CSSProperties = {
     color: "rgba(255,255,255,0.85)",
@@ -768,6 +868,7 @@ function Footer({ setPage }: { setPage: (page: string) => void }) {
                 }}
               >
                 <MapPin size={18} style={{ marginTop: "2px", flexShrink: 0 }} />
+                {/* EDIT: the hospital street address shown in the footer. */}
                 <span style={{ borderBottom: "1px dashed rgba(255,255,255,0.4)" }}>
                   B 18, Besides State Bank of India (Personalised Branch), Near Kendriya Vidyalaya, Kankarbagh, Patna, BR 800020
                 </span>
@@ -850,8 +951,15 @@ function Footer({ setPage }: { setPage: (page: string) => void }) {
   );
 }
 
-// ====================== REVIEWS ======================
-
+// ====================== PATIENT REVIEWS ======================
+// EDIT: Reviews shown in the "Hear from Our Happy Patients" section.
+// NOTE: only reviews with a rating of 4 or 5 are displayed on the site; 1-3 star
+// entries are kept here but hidden. Each review is one block between { and }.
+//   name   = reviewer name
+//   rating = 1 to 5 (only 4 and 5 are shown)
+//   date   = any text date
+//   text   = the review words
+//   avatar = the initials shown in the coloured circle (e.g. "RK")
 const reviews = [
   {
     name: "Saurav Kumar",
@@ -1067,6 +1175,12 @@ function MediaCarousel() {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(true);
 
+  // EDIT: The photos and videos in the slideshow on the home page (About area).
+  // - For a PHOTO: put the image in public/Image/ and add a line like the first one.
+  // - For a YOUTUBE VIDEO: use the video's id. In a link like
+  //   https://www.youtube.com/watch?v=X6-H1NMgC5A  the id is the part after "v="
+  //   (here: X6-H1NMgC5A). The "title" is the caption shown over the slide.
+  // Remove the // in front of the example lines below to turn them on, then edit.
   const media: Array<{ type: "image" | "video"; src?: string; id?: string; title: string }> = [
     { type: "image", src: "/Image/hospital-1.png", title: "Paramhans Institute of Neurology" },
     { type: "video", id: "X6-H1NMgC5A", title: "Dr Sanjay Kumar awarded FRCP (London)" },
@@ -1322,7 +1436,16 @@ function SectionHeading({
 }
 
 // ====================== WHAT WE OFFER ======================
+// ====================== "WHAT WE OFFER" CARDS ======================
+// The grid of speciality cards on the home page.
 function WhatWeOffer() {
+  // EDIT: each line is one card: an Icon, a title, and a short description.
+  //  - title and desc: change the text between the quotes.
+  //  - Icon: the little picture. It must be one of the names imported at the very
+  //    top of this file (e.g. Brain, Activity, Bone, Ambulance, Microscope,
+  //    HeartPulse, Stethoscope, Siren). To use a new icon, add its name to the
+  //    import list at the top first.
+  //  - To add/remove a card, copy or delete a whole { ... } line.
   const services: Array<{ Icon: LucideIcon; title: string; desc: string }> = [
     { Icon: Brain, title: "Neurology", desc: "Expert care for stroke, epilepsy, neuropathy and other neurological conditions." },
     { Icon: Activity, title: "Trauma Surgery", desc: "A round-the-clock trauma unit for acute injuries, with prompt surgical care." },
@@ -1397,6 +1520,11 @@ function WhatWeOffer() {
 // ====================== TESTS SHOWCASE ======================
 // Auto-rotates through every diagnostic test one by one. Pauses on hover,
 // pauses when off-screen, and stops auto-advancing under reduced motion.
+// ====================== "TESTS WE RUN" (AUTO-ROTATING) ======================
+// Shows the diagnostic tests one at a time and changes automatically.
+// You do NOT edit the tests here - it uses the "diagnosticTests" list above, so
+// edit that list to change what appears. To change how fast it switches, change
+// the number 3800 below (it's in milliseconds, so 3800 = 3.8 seconds).
 function TestsShowcase({ setPage }: { setPage: (page: string) => void }) {
   const total = diagnosticTests.length;
   const reduced = prefersReducedMotion();
@@ -1585,6 +1713,11 @@ function TestsShowcase({ setPage }: { setPage: (page: string) => void }) {
 }
 
 // ====================== APPOINTMENT CTA ======================
+// ====================== "BOOK YOUR APPOINTMENT" SECTION ======================
+// The green/blue call-to-action near the bottom of the home page. The two phone
+// numbers shown here are inside this function - search for tel: to find them.
+// (Remember: the number also appears elsewhere; use Find & Replace to change it
+// everywhere - see the guide at the top of this file.)
 function AppointmentCTA({ setPage }: { setPage: (page: string) => void }) {
   return (
     <section
@@ -1693,7 +1826,16 @@ function AppointmentCTA({ setPage }: { setPage: (page: string) => void }) {
   );
 }
 
+// ====================== HOME PAGE ======================
+// This builds the whole home page by stacking the sections in order. The order
+// they appear below is the order they appear on the page. You can move a section
+// up or down by moving its line (e.g. <WhatWeOffer />) - keep each line whole.
 function HomePage({ setPage }: { setPage: (page: string) => void }) {
+  // EDIT: HOME PAGE STATS - the three big numbers band.
+  //   icon  = the small picture (must be an imported icon name, e.g. BedDouble,
+  //           Siren, Users)
+  //   num   = the number/text shown big (the digits count up on screen)
+  //   label = the words under the number
   const stats: Array<{ icon: LucideIcon; num: string; label: string }> = [
     { icon: BedDouble, num: "60+", label: "Air-Conditioned Beds" },
     { icon: Siren, num: "24/7", label: "Emergency Services" },
@@ -1702,7 +1844,11 @@ function HomePage({ setPage }: { setPage: (page: string) => void }) {
 
   return (
     <div>
-      {/* Hero - YouTube background video with circle overlay */}
+      {/* ===== HERO VIDEO ===== */}
+      {/* EDIT: the big background video at the top of the home page. To use a
+          different YouTube video, replace BOTH copies of the video id
+          YU5nKw_qc8M in the web link below with your video's id (the part after
+          "v=" in a YouTube link). Keep everything else in the link the same. */}
       <div style={{ position: "relative", width: "100%", height: "clamp(360px, 55vw, 600px)", overflow: "hidden", background: "#0B1A2A" }}>
         <iframe
           src="https://www.youtube.com/embed/YU5nKw_qc8M?autoplay=1&mute=1&loop=1&playlist=YU5nKw_qc8M&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0"
@@ -1751,6 +1897,8 @@ function HomePage({ setPage }: { setPage: (page: string) => void }) {
               lineHeight: 1.5,
             }}
           >
+            {/* EDIT: the text inside the round badge over the video. Each <br />
+                just starts a new line - keep them or remove them as you like. */}
             Paramhans Institute
             <br />
             Bringing World-Class
@@ -1810,6 +1958,7 @@ function HomePage({ setPage }: { setPage: (page: string) => void }) {
               <MediaCarousel />
             </Reveal>
             <Reveal delay={120} style={{ flex: "1 1 400px" }}>
+              {/* EDIT: the "About" paragraph shown next to the slideshow. */}
               <p style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "16.5px", lineHeight: 1.85, color: COLORS.textLight }}>
                 Paramhans Institute of Neurology offers specialised care in neurology, trauma, and joint replacement surgery at affordable prices. We treat
                 stroke, epilepsy, neuropathy, and other neurological conditions with advanced diagnostics and expert care. Our trauma unit provides 24/7
@@ -1822,6 +1971,15 @@ function HomePage({ setPage }: { setPage: (page: string) => void }) {
         </div>
       </section>
 
+      {/* ===== HOME PAGE SECTION ORDER =====
+          Below this point the home page is built from these sections, in order:
+            <WhatWeOffer />    - the speciality cards
+            (Stats)            - the three big numbers
+            <TestsShowcase />  - the auto-rotating tests
+            <AppointmentCTA /> - the "Book Your Appointment" band
+            <ReviewsSection /> - patient reviews
+          To reorder, move a whole line up or down (keep the line in one piece).
+          To remove a section, delete its whole line. */}
       <WhatWeOffer />
 
       {/* Stats */}
@@ -1903,6 +2061,8 @@ function HomePage({ setPage }: { setPage: (page: string) => void }) {
   );
 }
 
+// Small reusable coloured banner with a title used at the top of the inner
+// pages (Doctor, Mission, Team, Tests). The title text is passed in each time.
 function PageHero({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div style={{ background: COLORS.heroBg, padding: `${SP[9]}px 24px`, textAlign: "center", position: "relative", overflow: "hidden" }}>
@@ -1923,6 +2083,9 @@ function PageHero({ title, subtitle }: { title: string; subtitle?: string }) {
   );
 }
 
+// ====================== "DR. SANJAY KUMAR" PAGE ======================
+// EDIT: the text on this page is written directly below. Change the wording
+// between the tags. The doctor's photo path is in the <img ... src="..."> line.
 function DoctorPage() {
   return (
     <div>
@@ -1988,7 +2151,12 @@ function DoctorPage() {
   );
 }
 
+// ====================== "MISSION & VISION" PAGE ======================
 function MissionPage() {
+  // EDIT: the two cards on the Mission & Vision page.
+  //   icon  = imported icon name (Target, Eye, ...)
+  //   title = the card heading
+  //   body  = the paragraph
   const cards: Array<{ icon: LucideIcon; title: string; body: string }> = [
     {
       icon: Target,
@@ -2192,6 +2360,9 @@ function TeamCard({ doc, delay }: { doc: (typeof teamMembers)[number]; delay: nu
   );
 }
 
+// ====================== "OUR TEAM" PAGE ======================
+// Shows every doctor as a flip card. To change who appears, edit the
+// "teamMembers" list near the top of this file (not here).
 function TeamPage() {
   return (
     <div>
@@ -2209,6 +2380,9 @@ function TeamPage() {
   );
 }
 
+// ====================== "ALL TESTS" PAGE ======================
+// Shows every test as a card. To change the tests, edit the "diagnosticTests"
+// list near the top of this file (not here).
 function TestsPage() {
   return (
     <div>
@@ -2252,12 +2426,22 @@ function TestsPage() {
   );
 }
 
-// ====================== CHATBOT ======================
+// ====================== CHATBOT QUESTIONS & ANSWERS ======================
+// EDIT: This is everything the pop-up chat assistant says. It comes in two
+// languages: English ("en") and Hindi ("hi"). Each question the visitor can tap
+// is one block with:
+//   icon     = the small picture (an imported icon name, e.g. Calendar, MapPin)
+//   question = the button text the visitor sees
+//   answer   = the reply. Use \n to start a new line inside an answer.
+// To change wording, edit the text between the quotes. If you add a question to
+// English, add the matching one to Hindi too so both languages stay in step.
+// Phone numbers and the address appear inside some answers here as well.
 
 type FAQOption = { icon: LucideIcon; question: string; answer: string };
 type FAQLang = { greeting: string; language: string; options: FAQOption[] };
 
 const chatbotFAQ: { en: FAQLang; hi: FAQLang } = {
+  // ----- ENGLISH -----
   en: {
     greeting: "Hello! How can I help you today?",
     language: "English",
@@ -2299,6 +2483,7 @@ const chatbotFAQ: { en: FAQLang; hi: FAQLang } = {
       },
     ],
   },
+  // ----- HINDI (हिंदी) -----
   hi: {
     greeting: "नमस्ते! मैं आपकी कैसे मदद कर सकता हूँ?",
     language: "हिंदी",
@@ -2342,6 +2527,8 @@ const chatbotFAQ: { en: FAQLang; hi: FAQLang } = {
   },
 };
 
+// The floating chat button (bottom-right) and its pop-up window. The words it
+// shows come from "chatbotFAQ" above - edit them there, not here.
 function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [lang, setLang] = useState<"en" | "hi">("en");
@@ -2651,9 +2838,15 @@ function ChatBot() {
 
 // ====================== MAIN APP ======================
 
+// ====================== MAIN APP (puts everything together) ======================
+// This is the "control room". It remembers which page is showing and assembles
+// the bars, the current page, the footer and the chatbot. Most edits do NOT
+// happen here - change content in the sections above instead.
 export default function App() {
+  // Which page is currently shown ("home", "doctor", "mission", "team", "tests").
   const [page, setPage] = useState("home");
 
+  // Loads the website fonts. Leave as is.
   useEffect(() => {
     const fontLink = document.createElement("link");
     fontLink.href =
@@ -2662,10 +2855,13 @@ export default function App() {
     document.head.appendChild(fontLink);
   }, []);
 
+  // Jump back to the top whenever the page changes. Leave as is.
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [page]);
 
+  // Picks which page to show. The word in quotes ("home", "team", ...) is the
+  // page id used by the menu links above.
   const renderPage = () => {
     switch (page) {
       case "home":
@@ -2683,6 +2879,8 @@ export default function App() {
     }
   };
 
+  // The overall page layout, top to bottom. To remove a bar (for example the
+  // gold announcement), delete its line here.
   return (
     <div style={{ minHeight: "100vh", background: COLORS.bg, fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       <GlobalStyles />
